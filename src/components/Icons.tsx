@@ -13,7 +13,7 @@ export function AddToCartIcon() {
         <path d="M11.584 3.75v-2.5h-1.25v2.5h-2.5V5h2.5v2.5h1.25V5h2.5V3.75h-2.5Z" />
       </g>
       <defs>
-        <clipPath id="a">
+        <clipPath>
           <path fill="#fff" d="M.333 0h20v20h-20z" />
         </clipPath>
       </defs>
