@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-hat-text: 'Red Hat Text', sans-serif;
+
+  --color-custom-red: hsl(14, 86%, 42%);
+  --color-custom-green: hsl(159, 69%, 38%);
+
+  --color-custom-rose-50: hsl(20, 50%, 98%);
+  --color-custom-rose-100: hsl(13, 31%, 94%);
+  --color-custom-rose-300: hsl(14, 25%, 72%);
+  --color-custom-rose-400: hsl(7, 20%, 60%);
+  --color-custom-rose-500: hsl(12, 20%, 44%);
+  --color-custom-rose-900: hsl(14, 65%, 9%);
+}
+
+
+html, body {
+  width: 100%;
+  height: 100%
+}
+
+#root {
+  width: 100%;
+  height: 100%
+}
