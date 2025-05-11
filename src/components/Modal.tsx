@@ -1,7 +1,6 @@
 import { cn } from './utils';
 import { ClassValue } from 'clsx';
-import { useUi } from '../stores/uiContext';
-
+import { useUi } from '../hooks';
 export function Modal({
   children,
   className,

@@ -1,30 +1,29 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
-type UiContextType = {
+export type UiContextType = {
   isModalOpen: boolean;
+  isLoading: boolean;
   openModal: () => void;
   closeModal: () => void;
+  setLoading: () => void;
+  removeLoading: () => void;
 };
 
-const UiContext = createContext<UiContextType | undefined>(undefined);
+export const UiContext = createContext<UiContextType | undefined>(undefined);
 
 export const UiProvider = ({ children }: { children: React.ReactNode }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const setLoading = () => setIsLoading(true);
+  const removeLoading = () => setIsLoading(false);
+
   return (
-    <UiContext.Provider value={{ isModalOpen, openModal, closeModal }}>
+    <UiContext.Provider value={{ isModalOpen, openModal, closeModal, isLoading, setLoading, removeLoading }}>
       {children}
     </UiContext.Provider>
   );
-};
-
-export const useUi = (): UiContextType => {
-  const context = useContext(UiContext);
-  if (!context) {
-    throw new Error('useUi must be used within a UiProvider');
-  }
-  return context;
 };

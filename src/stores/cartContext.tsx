@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
 type CartItemType = {
   id: number;
@@ -7,21 +7,29 @@ type CartItemType = {
 };
 type CartContextType = {
   items: CartItemType[];
+  totalQuantity: number;
+  totalPrice: number;
   addToCart: (id: number, price: number) => void;
   removeFromCart: (id: number) => void;
   increaseQuantity: (id: number) => void;
   decreaseQuantity: (id: number) => void;
   getQuantity: (id: number) => number | undefined;
   resetCart: () => void;
-  getTotalResult: () => {
-    totalQuantity: number;
-    totalPrice: number;
-  };
 };
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+export const CartContext = createContext<CartContextType | undefined>(
+  undefined,
+);
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
+  const totalQuantity = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
+  const totalPrice = cartItems.reduce(
+    (total, item) => total + item.quantity * item.price,
+    0,
+  );
 
   function addToCart(id: number, price: number) {
     // 如果購物車沒有該商品,則加入購物車
@@ -69,39 +77,21 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     return cartItems.find((item) => item.id === id)?.quantity;
   }
 
-  function getTotalResult() {
-    const totalQuantity = cartItems.reduce(
-      (total, item) => total + item.quantity,
-      0,
-    );
-    const totalPrice = cartItems.reduce(
-      (total, item) => total + item.quantity * item.price,
-      0,
-    );
-
-    return { totalQuantity, totalPrice };
-  }
-
   return (
     <CartContext.Provider
       value={{
         items: cartItems,
+        totalQuantity,
+        totalPrice,
         addToCart,
         removeFromCart,
         increaseQuantity,
         decreaseQuantity,
         getQuantity,
-        getTotalResult,
         resetCart,
       }}
     >
       {children}
     </CartContext.Provider>
   );
-};
-
-export const useCart = () => {
-  const ctx = useContext(CartContext);
-  if (!ctx) throw new Error('useCart must be used within a CartProvider');
-  return ctx;
 };

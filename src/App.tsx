@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   Cart,
   CartEmpty,
@@ -18,36 +18,32 @@ import {
   CarbonNeutralIcon,
   EmptyCartIcon,
 } from './components/Icons';
-import { useCart } from './stores/cartContext';
-import { useProductions } from './stores/productsContext';
 import { Modal } from './components/Modal';
 import {
   OrderConfirmed,
   OrderConfirmedItem,
   OrderConfirmTotal,
 } from './components/OrderConfirmed';
-import { useUi } from './stores/uiContext';
-
+import { useUi, useCart, useProducts } from './hooks';
 function App() {
   const {
     items: cartItems,
+    totalQuantity,
+    totalPrice,
     addToCart,
     removeFromCart,
     increaseQuantity,
     decreaseQuantity,
     getQuantity,
-    getTotalResult,
     resetCart,
   } = useCart();
 
-  const { openModal, closeModal } = useUi();
-  const { products: productions, setupProducts } = useProductions();
-  const [isLoading, setIsLoading] = useState(false);
+  const { openModal, closeModal, isLoading, setLoading, removeLoading } = useUi();
+  const { products: productions, setupProducts } = useProducts();
 
   useEffect(() => {
-    console.log('init fetch');
-    setIsLoading(true);
-    setupProducts().finally(() => setIsLoading(false));
+    setLoading();
+    setupProducts().finally(removeLoading);
   }, []);
 
   function onOrderConfirmed() {
@@ -79,9 +75,7 @@ function App() {
               />
             );
           })}
-          <OrderConfirmTotal>
-            {getTotalResult().totalPrice.toFixed(2)}
-          </OrderConfirmTotal>
+          <OrderConfirmTotal>{totalPrice.toFixed(2)}</OrderConfirmTotal>
         </OrderConfirmed>
       </Modal>
       <div className="flex flex-col gap-4 p-6 md:flex-row md:p-10">
@@ -129,7 +123,7 @@ function App() {
           </ProductItems>
         </Products>
         <Cart>
-          <CartTitle cartItemsQuantity={getTotalResult().totalQuantity} />
+          <CartTitle cartItemsQuantity={totalQuantity} />
           {cartItems.length === 0 ? (
             <CartEmpty icon={<EmptyCartIcon />} />
           ) : (
@@ -153,9 +147,7 @@ function App() {
                   );
                 })}
               </div>
-              <CartOrderTotal>
-                {getTotalResult().totalPrice.toFixed(2)}
-              </CartOrderTotal>
+              <CartOrderTotal>{totalPrice.toFixed(2)}</CartOrderTotal>
               <CartMessage>
                 <CarbonNeutralIcon />
                 <p>
