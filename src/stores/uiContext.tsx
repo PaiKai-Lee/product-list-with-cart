@@ -22,7 +22,16 @@ export const UiProvider = ({ children }: { children: React.ReactNode }) => {
   const removeLoading = () => setIsLoading(false);
 
   return (
-    <UiContext.Provider value={{ isModalOpen, openModal, closeModal, isLoading, setLoading, removeLoading }}>
+    <UiContext.Provider
+      value={{
+        isModalOpen,
+        openModal,
+        closeModal,
+        isLoading,
+        setLoading,
+        removeLoading,
+      }}
+    >
       {children}
     </UiContext.Provider>
   );

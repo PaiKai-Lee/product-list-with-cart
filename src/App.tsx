@@ -38,7 +38,8 @@ function App() {
     resetCart,
   } = useCart();
 
-  const { openModal, closeModal, isLoading, setLoading, removeLoading } = useUi();
+  const { openModal, closeModal, isLoading, setLoading, removeLoading } =
+    useUi();
   const { products: productions, setupProducts } = useProducts();
 
   useEffect(() => {

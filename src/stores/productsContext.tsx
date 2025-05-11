@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useState } from 'react';
 
 export type ProductType = {
   id: number;
@@ -59,4 +59,3 @@ export const ProductsProvider = ({
     </ProductsContext.Provider>
   );
 };
-
